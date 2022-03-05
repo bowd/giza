@@ -22,7 +22,7 @@ func main():
 end
 ```
 
-We can run`
+We can run:
 
 ```
 $ giza run example.cairo
