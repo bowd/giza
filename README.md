@@ -1,75 +1,85 @@
-# My Plugin 'Blah'
+# Giza
 
-Change this readme to explain the purpose of your plugin.  A [suggested
-format](https://raw.githubusercontent.com/dbader/readme-template/master/README.md)
-is shown below.
+Simple fisher plugin which abstracts the compile/run steps when running cairo programs.
+I felt the need for this more and more when I was playing with short programs.
+It's opinionated about what arguments it sets for `cairo-run` and forwards the rest.
 
----------------------
+## Example
+Say we have the file `example.cairo`:
 
-# Product Name
-> Short blurb about what your product does.
+```
+func main():
+    [ap] = 100; ap++
+    # << Your code here >>
+    [ap] = [ap - 1] * [ap - 1]; ap++
+    [ap] = [ap - 1] * [ap - 2]; ap++
+    [ap] = [ap - 2] * 23; ap++
+    [ap] = [ap - 1] + [ap - 2]; ap++
+    [ap] = [ap - 5] * 45; ap++
+    [ap] = [ap - 1] + [ap - 2]; ap++
+    [ap] = [ap - 1] + 67; ap++
+    ret
+end
+```
 
-[![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
+We can run`
 
-One to two paragraph statement about your product and what it does.
+```
+$ giza run example.cairo
+Addr  Value
+-----------
+⋮
+0:0   5189976364521848832
+0:1   100
+0:2   5210805504208502784
+0:3   5210805499913535488
+0:4   5207427813077843968
+0:5   23
+0:6   5201798300658794496
+0:7   5207427813077647360
+0:8   45
+0:9   5201798300658794496
+0:10  5198420613823168512
+0:11  67
+0:12  2345108766317314046
+⋮
+1:0   2:0
+1:1   3:0
+1:2   100
+1:3   10000
+1:4   1000000
+1:5   230000
+1:6   1230000
+1:7   4500
+1:8   1234500
+1:9   1234567
 
-![](header.png)
+Number of steps: 9 (originally, 9)
+Used memory cells: 23
+Register values after execution:
+pc = 3:0
+ap = 1:10
+fp = 2:0
+```
+
+And it will compile and run, showing the full output
 
 ## Installation
 
-OS X & Linux:
-
-```sh
-npm install my-crazy-module --save
 ```
-
-Windows:
-
-```sh
-edit autoexec.bat
-```
-
-## Usage example
-
-A few motivating and useful examples of how your product can be used. Spice
-this up with code blocks and potentially more screenshots.
-
-_For more examples and usage, please refer to the [Wiki][wiki]._
-
-## Development setup
-
-Describe how to install all development dependencies and how to run an
-automated test-suite of some kind. Potentially do this for multiple platforms.
-
-```sh
-make install
-npm test
+$ fisher install bowd/giza
 ```
 
 ## Release History
 
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
-* 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
 * 0.0.1
-    * Work in progress
+    * Very basic function to wrap two calls to `cairo-compile` and `cairo-run`
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+boqdan – [@boqdan_](https://twitter.com/boqdan_)
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
-
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+Distributed under the MIT license. See ``LICENSE`` for more information.
 
 ## Contributing
 
@@ -78,11 +88,3 @@ Distributed under the XYZ license. See ``LICENSE`` for more information.
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
-
-<!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/yourproject/wiki
