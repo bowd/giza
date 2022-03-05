@@ -5,24 +5,8 @@ I felt the need for this more and more when I was playing with short programs.
 It's opinionated about what arguments it sets for `cairo-run` and forwards the rest.
 
 ## Example
-Say we have the file `example.cairo`:
 
-```
-func main():
-    [ap] = 100; ap++
-    # << Your code here >>
-    [ap] = [ap - 1] * [ap - 1]; ap++
-    [ap] = [ap - 1] * [ap - 2]; ap++
-    [ap] = [ap - 2] * 23; ap++
-    [ap] = [ap - 1] + [ap - 2]; ap++
-    [ap] = [ap - 5] * 45; ap++
-    [ap] = [ap - 1] + [ap - 2]; ap++
-    [ap] = [ap - 1] + 67; ap++
-    ret
-end
-```
-
-We can run:
+Say we have the program `example.cairo`, you can run:
 
 ```
 $ giza run example.cairo
